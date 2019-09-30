@@ -1,0 +1,508 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "BigCommerce Webhooks API",
+        "version": "",
+        "description": "For a list of all webhook events see [Webhook Events](https://developer.bigcommerce.com/api-docs/getting-started/webhooks/webhook-events). "
+    },
+    "paths": {
+        "/hooks": {
+            "post": {
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Webhooks_Response"
+                    }
+                },
+                "summary": "Create a Webhook",
+                "description": "Creates a webhook. Only one webhook at a time can be created. Custom headers can be added.",
+                "operationId": "createWebhooks",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Accept"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Content-Type"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/putOrPostWebhook"
+                            }
+                        }
+                    },
+                    "x-examples": {
+                        "application/json": {
+                            "scope": "store/order/*",
+                            "destination": "https://665b65a6.ngrok.io/webhooks",
+                            "is_active": true,
+                            "headers": {
+                                "username": "Webhooks User",
+                                "password": "Webhooks Password"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Webhooks"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "description": "Id of the webhook",
+                                                "example": 18048287
+                                            },
+                                            "client_id": {
+                                                "type": "string",
+                                                "description": "Client ID, unique to the store",
+                                                "example": "m9r6keqmo7h7f23btnpwernbez1kglkl"
+                                            },
+                                            "store_hash": {
+                                                "type": "string",
+                                                "description": "Store permanent ID. ",
+                                                "example": "sftg45fsd"
+                                            },
+                                            "scope": {
+                                                "type": "string",
+                                                "description": "Webhook event subscribed to",
+                                                "example": "store/order/*"
+                                            },
+                                            "destination": {
+                                                "type": "string",
+                                                "example": "https://665b65a6.ngrok.io/webhooks",
+                                                "description": "URL that returns a 200 response for webhooks"
+                                            },
+                                            "headers": {
+                                                "type": "object",
+                                                "description": "You can pass in any number of custom headers to validate webhooks being returned.",
+                                                "properties": {
+                                                    "custom": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
+                                            "is_active": {
+                                                "type": "boolean",
+                                                "example": false,
+                                                "description": "If the webhook is active or not"
+                                            },
+                                            "created_at": {
+                                                "type": "integer",
+                                                "example": 1561488106,
+                                                "description": "Created time"
+                                            },
+                                            "updated_at": {
+                                                "type": "integer",
+                                                "example": 1561488106,
+                                                "description": "Updated time"
+                                            }
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "response": {
+                                        "value": [
+                                            {
+                                                "id": 18044114,
+                                                "client_id": "m9r6keqmo7h7f23btnp3anbez1kglkl",
+                                                "store_hash": "{store_hash}",
+                                                "scope": "store/cart/lineItem/*",
+                                                "destination": "https://665b65a6.ngrok.io/webhooks",
+                                                "headers": null,
+                                                "is_active": true,
+                                                "created_at": 1561481759,
+                                                "updated_at": 1561481759
+                                            },
+                                            {
+                                                "id": 18044640,
+                                                "client_id": "m9r6keqmo7h7f23btnp3anbez1kglkl",
+                                                "store_hash": "{store_hash}",
+                                                "scope": "store/cart/*",
+                                                "destination": "https://665b65a6.ngrok.io/webhooks",
+                                                "headers": null,
+                                                "is_active": true,
+                                                "created_at": 1561482594,
+                                                "updated_at": 1561482594
+                                            },
+                                            {
+                                                "id": 18044783,
+                                                "client_id": "m9r6keqmo7h7f23btnp3anbez1kglkl",
+                                                "store_hash": "{store_hash}",
+                                                "scope": "store/shipment/*",
+                                                "destination": "https://665b65a6.ngrok.io/webhooks",
+                                                "headers": null,
+                                                "is_active": true,
+                                                "created_at": 1561482808,
+                                                "updated_at": 1561482808
+                                            },
+                                            {
+                                                "id": 18044824,
+                                                "client_id": "m9r6keqmo7h7f23btnp3anbez1kglkl",
+                                                "store_hash": "{store_hash}",
+                                                "scope": "store/subscriber/*",
+                                                "destination": "https://665b65a6.ngrok.io/webhooks",
+                                                "headers": null,
+                                                "is_active": true,
+                                                "created_at": 1561482939,
+                                                "updated_at": 1561482939
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "summary": "Get All Webhooks",
+                "description": "Returns a list of all webhooks on a store",
+                "operationId": "getAllWebhooks",
+                "tags": [
+                    "Webhooks"
+                ],
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Accept"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Content-Type"
+                    }
+                ]
+            }
+        },
+        "/hooks/{id}": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Webhooks_Response"
+                    }
+                },
+                "description": "Return a webhook by ID.",
+                "operationId": "getWebhook",
+                "summary": "Get a Webhook",
+                "tags": [
+                    "Webhooks"
+                ],
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Accept"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Content-Type"
+                    }
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }
+            ],
+            "put": {
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Webhooks_Response"
+                    }
+                },
+                "summary": "Update a Webhook",
+                "description": "Updates a webhook. Custom headers can be added.",
+                "operationId": "updateAWebhook",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Accept"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Content-Type"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/putOrPostWebhook"
+                            }
+                        }
+                    },
+                    "x-examples": {
+                        "application/json": {
+                            "scope": "store/cart/lineItem/*",
+                            "destination": "https://myapp.herokuapp.com/",
+                            "is_active": true,
+                            "headers": {
+                                "User-Name": "Hello",
+                                "Password": "Goodbye"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Webhooks"
+                ]
+            },
+            "delete": {
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Webhooks_Response"
+                    }
+                },
+                "summary": "Delete a Webhook",
+                "description": "Deletes a webhook. Only one webhook at a time can be deleted. When a webhook is deleted, it is returned in the response as a 200 OK.",
+                "operationId": "deleteAWebhook",
+                "tags": [
+                    "Webhooks"
+                ],
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Accept"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Content-Type"
+                    }
+                ]
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Webhooks"
+        }
+    ],
+    "security": [
+        {
+            "X-Auth-Client": []
+        },
+        {
+            "X-Auth-Token": []
+        }
+    ],
+    "servers": [
+        {
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v2",
+            "variables": {
+                "store_hash": {
+                    "default": "unknown"
+                }
+            }
+        }
+    ],
+    "components": {
+        "parameters": {
+            "Accept": {
+                "in": "header",
+                "name": "Accept",
+                "schema": {
+                    "type": "string",
+                    "default": "application/json"
+                }
+            },
+            "Content-Type": {
+                "name": "Content-Type",
+                "in": "header",
+                "schema": {
+                    "type": "string",
+                    "default": "application/json"
+                }
+            }
+        },
+        "responses": {
+            "Webhooks_Response": {
+                "description": "",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "description": "Id of the webhook",
+                                    "example": 18048287
+                                },
+                                "client_id": {
+                                    "type": "string",
+                                    "description": "Client ID, unique to the store",
+                                    "example": "m9r6keqmo7h7f23btnpwernbez1kglkl"
+                                },
+                                "store_hash": {
+                                    "type": "string",
+                                    "description": "Store permanent ID. ",
+                                    "example": "sftg45fsd"
+                                },
+                                "scope": {
+                                    "type": "string",
+                                    "description": "Webhook event subscribed to",
+                                    "example": "store/order/*"
+                                },
+                                "destination": {
+                                    "type": "string",
+                                    "example": "https://665b65a6.ngrok.io/webhooks",
+                                    "description": "URL that returns a 200 response for webhooks"
+                                },
+                                "headers": {
+                                    "type": "object",
+                                    "description": "You can pass in any number of custom headers to validate webhooks being returned.",
+                                    "properties": {
+                                        "custom": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "is_active": {
+                                    "type": "boolean",
+                                    "example": false,
+                                    "description": "If the webhook is active or not"
+                                },
+                                "created_at": {
+                                    "type": "integer",
+                                    "example": 1561488106,
+                                    "description": "Created time"
+                                },
+                                "updated_at": {
+                                    "type": "integer",
+                                    "example": 1561488106,
+                                    "description": "Updated time"
+                                }
+                            }
+                        },
+                        "examples": {
+                            "response": {
+                                "value": {
+                                    "id": 18048287,
+                                    "client_id": "m9r6keqmo7h7f23btnp3anbez1kglkl",
+                                    "store_hash": "{store_hash}",
+                                    "scope": "store/order/*",
+                                    "destination": "https://665b65a6.ngrok.io/webhooks",
+                                    "headers": {
+                                        "username": "Webhooks User",
+                                        "password": "Webhooks Password"
+                                    },
+                                    "is_active": true,
+                                    "created_at": 1561488106,
+                                    "updated_at": 1561488106
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "X-Auth-Client": {
+                "type": "apiKey",
+                "name": "X-Auth-Client",
+                "in": "header"
+            },
+            "X-Auth-Token": {
+                "type": "apiKey",
+                "name": "X-Auth-Token",
+                "in": "header"
+            }
+        },
+        "schemas": {
+            "putOrPostWebhook": {
+                "type": "object",
+                "title": "Create or Update A Webhook",
+                "properties": {
+                    "scope": {
+                        "type": "string",
+                        "example": "store/order/*",
+                        "description": "Event you subscribe to"
+                    },
+                    "destination": {
+                        "type": "string",
+                        "example": "https://665b65a6.ngrok.io/webhooks",
+                        "description": "URL must be active and return a 200 response"
+                    },
+                    "is_active": {
+                        "type": "boolean",
+                        "example": true,
+                        "description": "If webhook is active or not"
+                    },
+                    "headers": {
+                        "type": "object",
+                        "description": "You can pass in any number of custom headers to validate webhooks being returned. ",
+                        "properties": {
+                            "custom": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "required": [
+                    "scope",
+                    "destination",
+                    "is_active",
+                    "headers"
+                ]
+            },
+            "Webhook": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "Id of the webhook",
+                        "example": 18048287
+                    },
+                    "client_id": {
+                        "type": "string",
+                        "description": "Client ID, unique to the store",
+                        "example": "m9r6keqmo7h7f23btnpwernbez1kglkl"
+                    },
+                    "store_hash": {
+                        "type": "string",
+                        "description": "Store permanent ID. ",
+                        "example": "sftg45fsd"
+                    },
+                    "scope": {
+                        "type": "string",
+                        "description": "Webhook event subscribed to",
+                        "example": "store/order/*"
+                    },
+                    "destination": {
+                        "type": "string",
+                        "example": "https://665b65a6.ngrok.io/webhooks",
+                        "description": "URL that returns a 200 response for webhooks"
+                    },
+                    "headers": {
+                        "type": "object",
+                        "description": "You can pass in any number of custom headers to validate webhooks being returned.",
+                        "properties": {
+                            "custom": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "is_active": {
+                        "type": "boolean",
+                        "example": false,
+                        "description": "If the webhook is active or not"
+                    },
+                    "created_at": {
+                        "type": "integer",
+                        "example": 1561488106,
+                        "description": "Created time"
+                    },
+                    "updated_at": {
+                        "type": "integer",
+                        "example": 1561488106,
+                        "description": "Updated time"
+                    }
+                }
+            }
+        }
+    }
+}

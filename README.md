@@ -22,3 +22,22 @@ Collections for python scripts for working with Open API Specification (OAS) fil
 * `{provider_server_domain}`
 * Create the payment token: `https://api.bigcommerce.com/stores/{store_hash}/v3/payments/access_tokens`
 * Process the payment:  `https://payments.bigcommerce.com/stores/{store_hash}/payments`
+
+## Convert Swagger 2.0 to OAS 3.0
+
+```bash
+npm install -g swagger2openapi
+
+swagger2openapi --patch https://raw.githubusercontent.com/bigcommerce/dev-docs/master/reference/json/BigCommerce_Orders_API.oas2.json
+```
+
+## Renaming Files:
+
+```bash
+# just echo to see preview
+for i in *.oas2.json; do echo ${i/%.oas2.json/.oas3.json}; done
+
+# actaual
+
+for i in *.oas2.json; do swagger2openapi --patch $i >> oas3/${i/%.oas2.json/.oas3.json}; done
+```
