@@ -41,3 +41,32 @@ for i in *.oas2.json; do echo ${i/%.oas2.json/.oas3.json}; done
 
 for i in *.oas2.json; do swagger2openapi --patch $i >> oas3/${i/%.oas2.json/.oas3.json}; done
 ```
+
+## Servers
+
+The global servers array can be overridden on the path level or operation level. This is handy if some endpoints use a different server or base path than the rest of the API. Common examples are:
+* Different base URL for file upload and download operations,
+* Deprecated but still functional endpoints.
+
+```yaml
+servers:
+  - url: https://api.example.com/v1
+paths:
+  /files:
+    description: File upload and download operations
+    servers:
+      - url: https://files.example.com
+        description: Override base path for all operations with the /files path
+    ...
+  /ping:
+    get:
+      servers:
+        - url: https://echo.example.com
+          description: Override base path for the GET /ping operation
+```
+
+## Open in Studio
+```js
+x = window.location.href.split("https://github.com/")[1].split("/")
+window.open("https://stoplight.io/p/studio/gh/" + x[0] + "/" + x[1])
+```
